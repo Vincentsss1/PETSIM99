@@ -23,8 +23,8 @@ getgenv().settings = {
         item = "Huge", -- idk if this works with part of the name...
         maxPrice = 20000,
         class = "Pet",
-        tier =  -- nil for normal, 1 for gold, 2 for rainbow
-        shiny =  -- nil for non-shiny, true for shiny
+        tier = nil -- nil for normal, 1 for gold, 2 for rainbow
+        shiny = nil -- nil for non-shiny, true for shiny
     }
 {
         item = "Secret Key", -- idk if this works with part of the name...
