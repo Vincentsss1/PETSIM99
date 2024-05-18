@@ -31,6 +31,11 @@ getgenv().settings = {
         maxPrice = 2000,
         class = "Misc",
     }
+{
+        item = "Gift Bag",
+        maxPrice = 900,
+        class = "Misc"
+    }
 }
 repeat task.wait() until game:IsLoaded()
 
