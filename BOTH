@@ -32,6 +32,11 @@ getgenv().settings = {
         class = "Misc",
     }
 {
+        item = "Happy Pets",
+        maxPrice = 100,
+        class = "Enchant"
+    }
+{
         item = "Gift Bag",
         maxPrice = 900,
         class = "Misc"
