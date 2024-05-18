@@ -32,9 +32,11 @@ getgenv().settings = {
         class = "Misc",
     }
 {
-        item = "Happy Pets",
-        maxPrice = 100,
-        class = "Enchant"
+       item = "terror cat", -- idk if this works with part of the name...
+        maxPrice = 200,
+        class = "Pet",
+        tier = nil -- nil for normal, 1 for gold, 2 for rainbow
+        shiny = nil -- nil for non-shiny, true for shiny
     }
 {
         item = "Gift Bag",
