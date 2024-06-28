@@ -1,4 +1,3 @@
-
 getgenv().settings = {
     {
         item = "Piñata",
@@ -19,7 +18,7 @@ local discordwebhook = "https://discord.com/api/webhooks/1240793572580655225/OW8
 
 local function formatPrice(price)
     if price >= 1000 then
-        local suffixes = { "", "k", "m", "b", "t" } -- Add more suffixes as needed
+        local suffixes = { "", "k", "m", "b", "t" }
         local suffixIndex = 1
 
         while price >= 1000 do
@@ -32,8 +31,9 @@ local function formatPrice(price)
         return tostring(price)
     end
 end
+
 local function webhook(type, amt, price, seller, left)
-    url = discordwebhook
+    local url = discordwebhook
     local data = {
         ["content"] = "",
         ["username"] = "snipe webhook",
@@ -66,7 +66,6 @@ local function webhook(type, amt, price, seller, left)
                         ["inline"] = false
                     }
                 }
-
             }
         }
     }
@@ -76,7 +75,7 @@ local function webhook(type, amt, price, seller, left)
         ["content-type"] = "application/json"
     }
 
-    request = http_request or request or HttpPost or syn.request
+    local request = http_request or request or HttpPost or syn.request
     local a = { Url = url, Body = newdata, Method = "POST", Headers = headers }
 
     request(a)
@@ -93,7 +92,7 @@ if game.PlaceId == 8737899170 or game.PlaceId == 16498369169 then
 elseif game.PlaceId == 15502339080 then
     repeat task.wait() until game:GetService("Workspace").__THINGS and game:GetService("Workspace").__DEBRIS
 else
-    print("wtf r u doing? what game r u even on dumb fuck")
+    print("Invalid game. Please check the PlaceId.")
 end
 
 repeat
@@ -106,9 +105,8 @@ until game:GetService("Players").LocalPlayer:FindFirstChild("PlayerScripts")
 
 print("loaded")
 
-e = getsenv(game:GetService("Players").LocalPlayer.PlayerScripts.Scripts.Game["Trading Plaza"]["Booths Frontend"])
+local e = getsenv(game:GetService("Players").LocalPlayer.PlayerScripts.Scripts.Game["Trading Plaza"]["Booths Frontend"])
 local save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
-
 
 if not isfolder("butterTerminalFinder") then
     makefolder("butterTerminalFinder")
@@ -117,7 +115,7 @@ if not isfolder("butterTerminalFinder") then
 end
 
 local function getUserFromId(id)
-    for i, v in pairs(game.Players:GetPlayers()) do
+    for _, v in pairs(game.Players:GetPlayers()) do
         if v.UserId == id then
             return v.DisplayName
         end
@@ -132,14 +130,14 @@ repeat
 until inv ~= nil
 
 local money = 0
-for i, v in pairs(save.Get().Inventory.Currency) do
+for _, v in pairs(save.Get().Inventory.Currency) do
     if v.id == 'Diamonds' then
         money = v._am
     end
 end
 
 local randTable
-local function infoHanlder()
+local function infoHandler()
     randTable = settings[math.random(1, #settings)]
     local ohString2
     if randTable.class == "Charm" or randTable.class == "Enchant" or randTable.class == "Potion" then
@@ -172,7 +170,6 @@ local function infoHanlder()
             ohBoolean4)
     end)
     if info == nil then
-        local info
         repeat
             pcall(function()
                 info = game:GetService("ReplicatedStorage").Network.TradingTerminal_Search:InvokeServer(
@@ -199,17 +196,17 @@ local function infoHanlder()
 end
 
 if readfile("butterTerminalFinder/hasHopped.txt") == "false" then
-    infoHanlder()
+    infoHandler()
 else
     print("looking for booth")
 
-    for i, k in pairs(game.Players:GetPlayers()) do
-        suc, _ = pcall(function()
+    for _, k in pairs(game.Players:GetPlayers()) do
+        local suc, _ = pcall(function()
             local f = e.getByOwnerId(k.UserId).Listings
         end)
         if suc then
             if tpToBooth then
-                for a, s in pairs(workspace.__THINGS.Booths:GetChildren()) do
+                for _, s in pairs(workspace.__THINGS.Booths:GetChildren()) do
                     if s.Info.BoothBottom.Frame.Top.Text:find(k.DisplayName) then
                         game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = s.Table.CFrame * CFrame.new(5, 0, 0)
                     end
@@ -218,7 +215,7 @@ else
 
             for i, v in pairs(e.getByOwnerId(k.UserId).Listings) do
                 if not v['Item'] then continue end
-                for n, l in pairs(settings) do
+                for _, l in pairs(settings) do
                     local cost = v.DiamondCost
                     local itemType = v.Item._data.id
                     local amt = v.Item._data._am
@@ -235,7 +232,7 @@ else
                             print(i)
                             if not i then
                                 writefile("butterTerminalFinder/hasHopped.txt", "false")
-                                infoHanlder()
+                                infoHandler()
                             else
                                 local ohTable2 = {
                                     [i] = amt
@@ -256,7 +253,7 @@ else
                                 print('xd?')
                                 if not i then
                                     writefile("butterTerminalFinder/hasHopped.txt", "false")
-                                    infoHanlder()
+                                    infoHandler()
                                 else
                                     local ohTable2 = {
                                         [i] = newAmt
@@ -281,7 +278,7 @@ else
     task.wait(2)
     writefile("butterTerminalFinder/hasHopped.txt", "false")
     while true do
-        infoHanlder()
+        infoHandler()
         task.wait(1)
     end
 end
