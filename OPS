@@ -18,7 +18,7 @@ local discordwebhook = "https://discord.com/api/webhooks/1240793572580655225/OW8
 
 local function formatPrice(price)
     if price >= 1000 then
-        local suffixes = { "", "k", "m", "b", "t" }
+        local suffixes = { "", "k", "m", "b", "t" } -- Add more suffixes as needed
         local suffixIndex = 1
 
         while price >= 1000 do
@@ -66,6 +66,7 @@ local function webhook(type, amt, price, seller, left)
                         ["inline"] = false
                     }
                 }
+
             }
         }
     }
@@ -108,9 +109,14 @@ print("loaded")
 local e = getsenv(game:GetService("Players").LocalPlayer.PlayerScripts.Scripts.Game["Trading Plaza"]["Booths Frontend"])
 local save = require(game:GetService("ReplicatedStorage").Library.Client.Save)
 
+
 if not isfolder("butterTerminalFinder") then
     makefolder("butterTerminalFinder")
     task.wait(0.1)
+end
+
+-- Check if the file exists, if not create it
+if not pcall(function() readfile("butterTerminalFinder/hasHopped.txt") end) then
     writefile("butterTerminalFinder/hasHopped.txt", "false")
 end
 
